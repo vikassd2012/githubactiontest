@@ -1,0 +1,23 @@
+<Project DefaultTargets="build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+
+  <Target Name="Clean">
+    <MSBuild Projects="TestSolution.sln" Targets="Clean;"/>
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Build-Tests"/>
+
+  <Target Name="Build-Tests">
+    <ItemGroup>
+      <TestProjects Include="tests/**/*.csproj"/>
+    </ItemGroup>
+    <MSBuild Projects="@(TestProjects)" Targets="Restore;Build;"/>
+  </Target>
+
+  <Target Name="VSTest" DependsOnTargets="Build-Tests">
+    <ItemGroup>
+      <TestProjects Include="tests/**/*.csproj"/>
+    </ItemGroup>
+    <MSBuild Projects="@(TestProjects)" Targets="VSTest" ContinueOnError="ErrorAndContinue"/>
+  </Target>
+  
+</Project>
