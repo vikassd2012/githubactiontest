@@ -17,9 +17,30 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+    
     - name: Install dependencies
       run: dotnet restore build.proj
+    
     - name: Build
       run: dotnet build build.proj --configuration Release --no-restore
+    
     - name: Test
       run: dotnet test build.proj --no-restore --verbosity normal
+    
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.0
+      with:
+        # Username used to log in to a Docker registry. If not set then no login will occur
+        username: vikassd2012
+        # Password or personal access token used to log in to a Docker registry. If not set then no login will occur
+        password: Dififcult1@
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        # Docker repository to tag the image with
+        repository: vikassd2012/githubactiontest
+        # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
+        tags: v0.1
+        # Automatically tags the built image with the git reference as per the readme
+       
+        # Path to the Dockerfile (Default is '{path}/Dockerfile')
+        dockerfile: Dockerfile
+        push: true
